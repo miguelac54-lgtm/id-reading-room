@@ -437,6 +437,19 @@ body{font-family:Inter,"Segoe UI",ui-sans-serif,system-ui,-apple-system,sans-ser
 [data-theme="dark"] .resident-contact{background:linear-gradient(115deg,#182c43,#1b3837)}
 @media(max-width:1000px){.resident-contact{grid-template-columns:1fr}.resident-principles{grid-template-columns:1fr}}
 @media(max-width:760px){.resident-expectation-grid{grid-template-columns:1fr}.resident-curriculum-actions{flex-direction:column;align-items:stretch}.resident-curriculum-actions>div:last-child{flex-shrink:1}.resident-contact-grid{grid-template-columns:1fr}.resident-contact-grid>div:first-child{grid-column:auto}}
+</style><style>
+.weekly-reading-group{border-top:1px solid var(--line)}
+.weekly-reading-group .weekly-reading{border-top:0}
+.weekly-expand{margin:0 0 12px 42px;border:1px solid var(--line);border-radius:11px;background:var(--surface2);overflow:hidden}
+.weekly-expand summary{cursor:pointer;padding:10px 13px;font-size:12px;font-weight:800;color:var(--teal);list-style-position:inside}
+.weekly-expand summary span{color:var(--muted);font-weight:550}
+.weekly-expand[open] summary{border-bottom:1px solid var(--line)}
+.weekly-expand-list{display:flex;flex-direction:column}
+.weekly-expand-source{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;background:transparent;color:var(--ink);text-align:left;border:0;border-bottom:1px solid var(--line);width:100%}
+.weekly-expand-source:hover{background:var(--surface)}
+.weekly-expand-source strong{display:block;font-size:12px}
+.weekly-expand-source small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+.weekly-expand>p{font-size:11px;color:var(--muted);margin:10px 14px 12px}
 </style></head>
 <body>
 <a href="#maincontent" class="skip">Skip to content</a>
@@ -470,9 +483,9 @@ body{font-family:Inter,"Segoe UI",ui-sans-serif,system-ui,-apple-system,sans-ser
       </section>
       <section id="view-pathway" class="view" aria-label="Inpatient ID Reading Guide">
         <div class="pagehead"><div><div class="mini-heading">Welcome to the ID inpatient service</div><h1>Inpatient ID Reading Guide</h1><p>Welcome to the ID inpatient service! Use this reading guide as a starting point for your weeks on service. Choose readings each week and plan to discuss what you learn with your attending. Read in any order, guided by the patients you encounter. Explore the full ID library and optional Weeks 3–4 whenever you want to go deeper.</p></div><button class="btn secondary" data-go="curriculum">Resident Curriculum ↗</button></div>
-        <div class="path-overview"><h3>Your reading progress</h3><p>Weeks 1–2 are the suggested essential readings, with no assigned day deadlines. Completed readings, saved articles, and notes stay in this browser. To use another device, export your progress as a JSON file and import it there; importing merges the two copies. <strong>There is no automatic account synchronization.</strong></p><div class="path-tools"><button type="button" class="btn sm secondary" id="path-export-btn">↓ Export progress</button><button type="button" class="btn sm secondary" id="path-import-btn">↑ Import progress</button></div><div class="pathbar"><div class="progress"><div id="path-progress"></div></div><strong id="path-progress-label">0 / 10</strong></div></div>
+        <div class="path-overview"><h3>Your reading progress</h3><p>Weeks 1–2 are the suggested essential readings, with no assigned day deadlines. Open <strong>Expand your reading</strong> beneath a topic for optional companion articles that do not change your required-reading progress. Completed readings, saved articles, and notes stay in this browser. To use another device, export your progress as a JSON file and import it there; importing merges the two copies. <strong>There is no automatic account synchronization.</strong></p><div class="path-tools"><button type="button" class="btn sm secondary" id="path-export-btn">↓ Export progress</button><button type="button" class="btn sm secondary" id="path-import-btn">↑ Import progress</button></div><div class="pathbar"><div class="progress"><div id="path-progress"></div></div><strong id="path-progress-label">0 / 10</strong></div></div>
         <div class="week-grid" id="week-grid"></div>
-        <div class="sectionbar optional-head"><div><div class="mini-heading">Extended learning</div><h2>Weeks 3 &amp; 4</h2><p>The IDSA resistance guidance and MERINO remain core for extended rotations; the other readings are patient-directed. Select readings in any order during each week.</p></div></div>
+        <div class="sectionbar optional-head"><div><div class="mini-heading">Extended learning</div><h2>Weeks 3 &amp; 4</h2><p>MERINO remains a core extended-rotation reading; IDSA resistance guidance is now in Week 2. The other readings are patient-directed. Select readings in any order during each week.</p></div></div>
         <div class="optional-progress" id="optional-progress"></div>
         <div class="week-grid" id="optional-week-grid"></div>
         <div class="tipbar"><b>Learning on service:</b> Replace an assigned paper with one that answers a question from your patient. The library is a scaffold for clinical learning, not a mandatory linear syllabus.</div>
@@ -571,21 +584,23 @@ function openTier(tier){state.library={query:'',topic:'all',kind:'all',tier:Stri
 function renderCounts(){document.getElementById('stat-total').textContent=articles.length;document.getElementById('stat-complete').textContent=store.done.length;document.getElementById('stat-saved').textContent=store.saved.length;document.getElementById('sidebar-count').textContent=articles.length;document.getElementById('saved-count').textContent=store.saved.length;document.getElementById('completed-count').textContent=store.done.length;}
 function renderHome(){renderCounts();document.getElementById('topic-grid').innerHTML=TOPICS.map(([topic,sym])=>`<div class="topic-unit"><button class="topic-tile" data-topic="${escapeHTML(topic)}"><span class="topic-symbol">${clinicalIcon(topic)}</span><strong>${escapeHTML(topic)}</strong><small>${articles.filter(a=>a.topic===topic).length} curated readings &nbsp; ↗</small></button><button type="button" class="topic-suggest" data-suggest-topic="${escapeHTML(topic)}">+ Suggest an article</button></div>`).join('');const next=ESSENTIAL.find(p=>!store.done.includes(p.id))||ESSENTIAL[0],a=byId[next.id];document.getElementById('next-panel').innerHTML=`<div><div class="feature-label">${pathway.every(p=>store.done.includes(p.id))?'Pathway complete · revisit a reading':'Up next · Day '+next.day}</div><h3>${escapeHTML(a.short)}</h3><p>${escapeHTML(a.question)} &nbsp; <span style="color:var(--teal)">· ${a.mins} min</span></p></div><div class="feature-actions"><a class="btn" href="${escapeHTML(a.url)}" target="_blank" rel="noopener noreferrer">Read original article ↗</a><button class="btn secondary" data-open="${a.id}">Review guide</button><button class="btn secondary" data-go="pathway">View schedule</button></div>`;}
 function renderPathway(){
- const completed=ESSENTIAL.filter(x=>store.done.includes(x.id)).length;
- document.getElementById('path-progress').style.width=(completed/ESSENTIAL.length*100)+'%';
- document.getElementById('path-progress-label').textContent=completed+' / '+ESSENTIAL.length;
- const weekTitles={1:'Consult fundamentals and bloodstream infections',2:'Urinary, respiratory, skin and bone infections',3:'Resistance, endocarditis and diabetic foot',4:'Hospital-acquired infections and reassessment'};
+ const complete=ESSENTIAL.filter(x=>store.done.includes(x.id)).length;
+ document.getElementById('path-progress').style.width=(complete/ESSENTIAL.length*100)+'%';
+ document.getElementById('path-progress-label').textContent=complete+' / '+ESSENTIAL.length;
+ const labels={1:'Consult fundamentals and bloodstream infections',2:'Urinary, respiratory, resistance, skin and bone infections',3:'Resistance trials, endocarditis and diabetic foot',4:'Hospital-acquired infections and reassessment'};
  const renderWeek=w=>{
-   const subset=pathway.filter(p=>p.week===w),done=subset.filter(p=>store.done.includes(p.id)).length;
-   return `<section class="week ${w>2?'optional':''}"><div class="weekhead"><div><div class="mini-heading">${w>2?'Extended rotation · Flexible':'Essential inpatient service'}</div><h2>Week ${w}</h2><p class="weekly-intro">${escapeHTML(weekTitles[w])}</p></div><span class="chip">${done}/${subset.length} read</span></div>
-   <div class="weekly-readings">${subset.map(p=>{
-     const a=byId[p.id],isDone=store.done.includes(p.id);
-     return `<button class="weekly-reading" data-open="${a.id}"><span class="weekly-check ${isDone?'complete':''}">${isDone?'✓':'○'}</span><span class="weekly-reading-text"><strong>${escapeHTML(a.short)}</strong><small>${escapeHTML(a.source)} · Tier ${a.tier} · ${a.mins} min${p.extendedCore?' · Core for extended rotation':''}</small><span>${escapeHTML(p.focus)}</span></span><span class="lesson-arrow" aria-hidden="true">↗</span></button>`;
-   }).join('')}</div></section>`;
+  const items=pathway.filter(p=>p.week===w),count=items.filter(p=>store.done.includes(p.id)).length;
+  return `<section class="week ${w>2?'optional':''}"><div class="weekhead"><div><div class="mini-heading">${w>2?'Extended rotation · Flexible':'Essential inpatient service'}</div><h2>Week ${w}</h2><p class="weekly-intro">${escapeHTML(labels[w])}</p></div><span class="chip">${count}/${items.length} read</span></div>
+  <div class="weekly-readings">${items.map(p=>{
+   const art=byId[p.id],read=store.done.includes(p.id);
+   const companions=(p.expand||[]).map(id=>byId[id]).filter(Boolean);
+   return `<div class="weekly-reading-group"><button class="weekly-reading" data-open="${art.id}"><span class="weekly-check ${read?'complete':''}">${read?'✓':'○'}</span><span class="weekly-reading-text"><strong>${escapeHTML(art.short)}</strong><small>${escapeHTML(art.source)} · Tier ${art.tier} · ${art.mins} min${p.extendedCore?' · Core for extended rotation':''}</small><span>${escapeHTML(p.focus)}</span></span><span class="lesson-arrow" aria-hidden="true">↗</span></button>
+   ${companions.length?`<details class="weekly-expand"><summary>Expand your reading <span>· ${companions.length} optional ${companions.length===1?'resource':'resources'}</span></summary><div class="weekly-expand-list">${companions.map(c=>`<button type="button" data-open="${c.id}" class="weekly-expand-source"><span><strong>${escapeHTML(c.short)}</strong><small>${escapeHTML(c.source)} · ${c.year} · Tier ${c.tier}${store.done.includes(c.id)?' · Already read':''}</small></span><span aria-hidden="true">↗</span></button>`).join('')}</div><p>Optional deeper reading. These articles are saved in the ID library and do not count toward weekly completion.</p></details>`:''}</div>`;
+  }).join('')}</div></section>`;
  };
  document.getElementById('week-grid').innerHTML=[1,2].map(renderWeek).join('');
  document.getElementById('optional-week-grid').innerHTML=[3,4].map(renderWeek).join('');
- document.getElementById('optional-progress').textContent=`Extended rotation core: ${pathway.filter(p=>p.extendedCore&&store.done.includes(p.id)).length} of 2 read · Additional readings: ${OPTIONAL.filter(p=>store.done.includes(p.id)).length} of ${OPTIONAL.length} read.`;
+ document.getElementById('optional-progress').textContent=`Extended rotation core: ${pathway.filter(p=>p.extendedCore&&store.done.includes(p.id)).length} of ${pathway.filter(p=>p.extendedCore).length} read · Weeks 3–4: ${OPTIONAL.filter(p=>store.done.includes(p.id)).length} of ${OPTIONAL.length} read.`;
 }
 function renderTierCards(){
  const root=document.getElementById('tier-cards');if(!root)return;
