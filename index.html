@@ -539,15 +539,21 @@ function refreshAfterChange(){renderCounts();if(view==='home')renderHome();if(vi
 function toggleSaved(id){store.saved=store.saved.includes(id)?store.saved.filter(x=>x!==id):[...store.saved,id];persist();refreshAfterChange();toast(store.saved.includes(id)?'Saved for later':'Removed from saved')}
 function toggleDone(id){store.done=store.done.includes(id)?store.done.filter(x=>x!==id):[...store.done,id];persist();refreshAfterChange();toast(store.done.includes(id)?'Marked as completed':'Marked as not read')}
 function exportProgress(){const payload={format:'id-reading-room-progress-v1',exportedAt:new Date().toISOString(),done:store.done,saved:store.saved,notes:store.notes};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='ID_Reading_Room_Progress.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('Progress exported as JSON')}
-const feedbackRepo='https://github.com/miguelac54-lgtm/id-reading-room/issues/new';
+// Feedback collection uses external Microsoft Forms; no email address is published.
+// MS Forms question prefill requires a dedicated form-generated prefilled URL.
+const articleSuggestionForm="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=taPMTM1xbU6XS02b65bG1vCdLEy9AWBKims25tOt4lhUMlNWWDQxUVY1Q0RQVEozT0FMWFg2UEJKNC4u";
+const websiteFeedbackForm="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=taPMTM1xbU6XS02b65bG1vCdLEy9AWBKims25tOt4lhUMFE2TkY1MkM1S1BZWENLWDUxV0lPMVU1Ty4u";
 function openArticleSuggestion(topic,article){
- const title='Article suggestion: '+topic;
- const body=['## Clinical topic',topic,'','## Suggested article / guideline','Title: ','Link / DOI / PMID: ','','## Clinical question or reason for suggesting','','','## Related reading (optional)',article||'','Please do not include patient-identifying information.'].join('\n');
- window.open(feedbackRepo+'?'+new URLSearchParams({title,body}).toString(),'_blank','noopener,noreferrer');
+ const topicText=topic+(article?' — related reading: '+article:'');
+ if(navigator.clipboard && navigator.clipboard.writeText){
+   navigator.clipboard.writeText(topicText)
+    .then(()=>toast('Topic copied. Paste it into the form if needed.'))
+    .catch(()=>{});
+ }
+ window.open(articleSuggestionForm,'_blank','noopener,noreferrer');
 }
 function openWebsiteFeedback(){
- const body=['## Feedback category','[ ] Usability / navigation','[ ] Broken reference / link','[ ] Missing topic','[ ] Other suggestion','','## What should be improved?','','','## Optional page or article','','','Please do not include patient-identifying information.'].join('\n');
- window.open(feedbackRepo+'?'+new URLSearchParams({title:'ID Reading Room website feedback',body}).toString(),'_blank','noopener,noreferrer');
+ window.open(websiteFeedbackForm,'_blank','noopener,noreferrer');
 }
 document.addEventListener('click',e=>{const btn=e.target.closest('[data-go],[data-topic],[data-open],[data-save],[data-done],[data-clear],[data-audio],[data-stop-audio],[data-suggest-topic],[data-website-feedback]');if(!btn)return;if(btn.hasAttribute('data-website-feedback')){openWebsiteFeedback();return}if(btn.dataset.suggestTopic){openArticleSuggestion(btn.dataset.suggestTopic,btn.dataset.suggestArticle||'');return}if(btn.dataset.audio){speakSummary(btn.dataset.audio);return}if(btn.hasAttribute('data-stop-audio')){stopAudio();return}if(btn.dataset.save){toggleSaved(btn.dataset.save);return}if(btn.dataset.done){toggleDone(btn.dataset.done);return}if(btn.dataset.open){openArticle(btn.dataset.open);return}if(btn.dataset.topic){openTopic(btn.dataset.topic);return}if(btn.dataset.clear){state[btn.dataset.clear]={query:'',topic:'all',kind:'all',core:false};renderList(btn.dataset.clear);return}if(btn.dataset.go){e.preventDefault();nav(btn.dataset.go)}});
 document.addEventListener('input',e=>{const el=e.target;if(el.id==='article-notes'&&activeArticle){store.notes[activeArticle]=el.value;persist();return}if(el.matches('[data-filter="query"]')){const name=el.dataset.section;state[name].query=el.value;renderResults(name)}});
