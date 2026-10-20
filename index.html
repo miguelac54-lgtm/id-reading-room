@@ -382,7 +382,19 @@ body{font-family:Inter,"Segoe UI",ui-sans-serif,system-ui,-apple-system,sans-ser
 @media(max-width:1150px){.tier-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tier-card{min-height:203px}}
 @media(max-width:640px){.tier-grid{grid-template-columns:1fr}.tier-card{min-height:auto}.tier-home-teaser,.tier-curriculum-note,.tier-library-intro{align-items:stretch;flex-direction:column;padding:16px}.tier-home-teaser button,.tier-curriculum-note button,.tier-library-intro button{width:100%}}
 </style>
-</head>
+<style>
+/* Reading by week, never assigned to a specific day */
+.weekly-intro{font-size:12px;color:var(--muted);margin:5px 0 0;max-width:430px}
+.weekly-readings{display:flex;flex-direction:column}
+.weekly-reading{width:100%;text-align:left;display:flex;align-items:flex-start;gap:13px;background:transparent;color:var(--ink);border:0;border-top:1px solid var(--line);padding:14px 0}
+.weekly-reading:hover{background:var(--surface2)}
+.weekly-check{border-radius:10px;width:29px;height:29px;flex:0 0 29px;display:grid;place-items:center;background:var(--surface2);color:var(--muted)}
+.weekly-check.complete{background:#d8f3e7;color:#117c65}
+.weekly-reading-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.weekly-reading-text strong{font-weight:750;font-size:13px;line-height:1.4}
+.weekly-reading-text small{color:var(--teal);font-size:11px}
+.weekly-reading-text>span{color:var(--muted);font-size:11.5px;line-height:1.45}
+</style></head>
 <body>
 <a href="#maincontent" class="skip">Skip to content</a>
 <div class="app">
@@ -414,10 +426,10 @@ body{font-family:Inter,"Segoe UI",ui-sans-serif,system-ui,-apple-system,sans-ser
         <div class="tipbar"><b>On rounds:</b> Choose one relevant article → identify its main finding → check who was excluded → name one action or decision it informs. If a patient's question differs from the curriculum, follow the patient.</div>
       </section>
       <section id="view-pathway" class="view" aria-label="ID inpatient service reading schedule">
-        <div class="pagehead"><div><div class="mini-heading">10 essential sessions · Extended Weeks 3–4</div><h1>ID inpatient service</h1><p>Start with one reading per weekday during your two-week ID service. Open the original article first; then review the clinical question and how to apply the evidence on medicine rounds. For extended rotations, the IDSA resistance guidance and MERINO trial are core Week 3 readings; other topics remain flexible.</p></div><button class="btn secondary" data-go="curriculum">View ACGME learning objectives ↗</button></div>
-        <div class="path-overview"><h3>ID service reading progress</h3><p>Only Weeks 1–2 count toward the essential pathway. Readings and notes are saved in this browser; use Export / Import to transfer them between devices. Account-based sync can be added later.</p><div class="pathbar"><div class="progress"><div id="path-progress"></div></div><strong id="path-progress-label">0 / 10</strong></div></div>
+        <div class="pagehead"><div><div class="mini-heading">Two-week reading pathway · Extended Weeks 3–4</div><h1>ID inpatient service</h1><p>Choose readings by week rather than by assigned day. You can read in any order, guided by the patients you encounter. Open the original article first, then use the clinical guide on rounds. For extended rotations, the IDSA resistance guidance and MERINO trial are core Week 3 readings; other topics remain flexible.</p></div><button class="btn secondary" data-go="curriculum">View ACGME learning objectives ↗</button></div>
+        <div class="path-overview"><h3>ID service reading progress</h3><p>Weeks 1–2 make up the essential pathway, without individual day deadlines. Readings and notes are saved in this browser; use Export / Import to transfer them between devices. Account-based sync can be added later.</p><div class="pathbar"><div class="progress"><div id="path-progress"></div></div><strong id="path-progress-label">0 / 10</strong></div></div>
         <div class="week-grid" id="week-grid"></div>
-        <div class="sectionbar optional-head"><div><div class="mini-heading">Extended learning</div><h2>Weeks 3 &amp; 4</h2><p>Week 3 core: IDSA resistance guidance and MERINO. Other readings are flexible and patient-directed; the original Week 1–2 progress total is unchanged.</p></div></div>
+        <div class="sectionbar optional-head"><div><div class="mini-heading">Extended learning</div><h2>Weeks 3 &amp; 4</h2><p>The IDSA resistance guidance and MERINO remain core for extended rotations; the other readings are patient-directed. Select readings in any order during each week.</p></div></div>
         <div class="optional-progress" id="optional-progress"></div>
         <div class="week-grid" id="optional-week-grid"></div>
         <div class="tipbar"><b>Learning on service:</b> Replace an assigned paper with one that answers a question from your patient. The library is a scaffold for clinical learning, not a mandatory linear syllabus.</div>
@@ -526,17 +538,21 @@ function openTier(tier){state.library={query:'',topic:'all',kind:'all',tier:Stri
 function renderCounts(){document.getElementById('stat-total').textContent=articles.length;document.getElementById('stat-complete').textContent=store.done.length;document.getElementById('stat-saved').textContent=store.saved.length;document.getElementById('sidebar-count').textContent=articles.length;document.getElementById('saved-count').textContent=store.saved.length;document.getElementById('completed-count').textContent=store.done.length;}
 function renderHome(){renderCounts();document.getElementById('topic-grid').innerHTML=TOPICS.map(([topic,sym])=>`<div class="topic-unit"><button class="topic-tile" data-topic="${escapeHTML(topic)}"><span class="topic-symbol">${clinicalIcon(topic)}</span><strong>${escapeHTML(topic)}</strong><small>${articles.filter(a=>a.topic===topic).length} curated readings &nbsp; ↗</small></button><button type="button" class="topic-suggest" data-suggest-topic="${escapeHTML(topic)}">+ Suggest an article</button></div>`).join('');const next=ESSENTIAL.find(p=>!store.done.includes(p.id))||ESSENTIAL[0],a=byId[next.id];document.getElementById('next-panel').innerHTML=`<div><div class="feature-label">${pathway.every(p=>store.done.includes(p.id))?'Pathway complete · revisit a reading':'Up next · Day '+next.day}</div><h3>${escapeHTML(a.short)}</h3><p>${escapeHTML(a.question)} &nbsp; <span style="color:var(--teal)">· ${a.mins} min</span></p></div><div class="feature-actions"><a class="btn" href="${escapeHTML(a.url)}" target="_blank" rel="noopener noreferrer">Read original article ↗</a><button class="btn secondary" data-open="${a.id}">Review guide</button><button class="btn secondary" data-go="pathway">View schedule</button></div>`;}
 function renderPathway(){
-const complete=ESSENTIAL.filter(x=>store.done.includes(x.id)).length;
-document.getElementById('path-progress').style.width=(complete/ESSENTIAL.length*100)+'%';
-document.getElementById('path-progress-label').textContent=complete+' / '+ESSENTIAL.length;
-const weekRender=(w)=>{
-const subset=pathway.filter(p=>p.week===w),completed=subset.filter(p=>store.done.includes(p.id)).length,optional=w>2;
-const label={1:'Build the foundation',2:'Apply evidence on service',3:'Deeper clinical decisions',4:'Extended practice topics'}[w];
-return `<div class="week ${optional?'optional':''}"><div class="weekhead"><div><div class="mini-heading">${optional?'Extended · ':''}${label}</div><h2>Week ${w}</h2></div><span class="chip">${completed}/${subset.length} read</span></div>${subset.map(p=>{const a=byId[p.id],done=store.done.includes(p.id);return `<button class="lesson" data-open="${p.id}"><span class="daynum ${done?'done':''}">${done?'✓':String(p.day).padStart(2,'0')}</span><span class="lesson-copy"><span class="lesson-title">${escapeHTML(p.label)}${p.extendedCore?' · Core for extended rotation':''}</span><span class="lesson-meta">${escapeHTML(a.short)} · ${a.mins} min${done?' · Already read':''}</span><span class="lesson-desc">${escapeHTML(p.focus)}</span></span><span class="lesson-arrow">↗</span></button>`}).join('')}</div>`;
-};
-document.getElementById('week-grid').innerHTML=[1,2].map(weekRender).join('');
-document.getElementById('optional-week-grid').innerHTML=[3,4].map(weekRender).join('');
-document.getElementById('optional-progress').textContent=`Extended rotation core: ${pathway.filter(p=>p.extendedCore&&store.done.includes(p.id)).length} of 2 complete · Week 3–4 total: ${OPTIONAL.filter(p=>store.done.includes(p.id)).length} of ${OPTIONAL.length}.`;
+ const completed=ESSENTIAL.filter(x=>store.done.includes(x.id)).length;
+ document.getElementById('path-progress').style.width=(completed/ESSENTIAL.length*100)+'%';
+ document.getElementById('path-progress-label').textContent=completed+' / '+ESSENTIAL.length;
+ const weekTitles={1:'Consult fundamentals and bloodstream infections',2:'Urinary, respiratory, skin and bone infections',3:'Resistance, endocarditis and diabetic foot',4:'Hospital-acquired infections and reassessment'};
+ const renderWeek=w=>{
+   const subset=pathway.filter(p=>p.week===w),done=subset.filter(p=>store.done.includes(p.id)).length;
+   return `<section class="week ${w>2?'optional':''}"><div class="weekhead"><div><div class="mini-heading">${w>2?'Extended rotation · Flexible':'Essential inpatient service'}</div><h2>Week ${w}</h2><p class="weekly-intro">${escapeHTML(weekTitles[w])}</p></div><span class="chip">${done}/${subset.length} read</span></div>
+   <div class="weekly-readings">${subset.map(p=>{
+     const a=byId[p.id],isDone=store.done.includes(p.id);
+     return `<button class="weekly-reading" data-open="${a.id}"><span class="weekly-check ${isDone?'complete':''}">${isDone?'✓':'○'}</span><span class="weekly-reading-text"><strong>${escapeHTML(a.short)}</strong><small>${escapeHTML(a.source)} · Tier ${a.tier} · ${a.mins} min${p.extendedCore?' · Core for extended rotation':''}</small><span>${escapeHTML(p.focus)}</span></span><span class="lesson-arrow" aria-hidden="true">↗</span></button>`;
+   }).join('')}</div></section>`;
+ };
+ document.getElementById('week-grid').innerHTML=[1,2].map(renderWeek).join('');
+ document.getElementById('optional-week-grid').innerHTML=[3,4].map(renderWeek).join('');
+ document.getElementById('optional-progress').textContent=`Extended rotation core: ${pathway.filter(p=>p.extendedCore&&store.done.includes(p.id)).length} of 2 read · Additional readings: ${OPTIONAL.filter(p=>store.done.includes(p.id)).length} of ${OPTIONAL.length} read.`;
 }
 function renderExtras(){
 const foundations=articles.filter(a=>a.topic==='Foundations');
