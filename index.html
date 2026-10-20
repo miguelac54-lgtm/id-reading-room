@@ -289,6 +289,19 @@ body{font-family:Inter,"Segoe UI",ui-sans-serif,system-ui,-apple-system,sans-ser
     [data-theme="dark"] .topic-symbol{background:#174c4b;color:#9de5d2}
     [data-theme="dark"] .topic-tile:hover .topic-symbol{background:#21635d}
     @media(max-width:680px){.topic-symbol svg{width:21px;height:21px}}
+
+.rotation-expectations{margin-top:28px;border:1px solid var(--line);border-radius:20px;background:var(--surface);padding:25px;box-shadow:var(--shadow)}
+.rotation-expectations-head h2{font-size:clamp(21px,2.5vw,26px);letter-spacing:-.035em;margin:5px 0 7px}
+.rotation-expectations-head>p{font-size:13px;color:var(--muted);margin:0 0 21px}
+.expectations-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.expectation-card{border:1px solid var(--line);border-radius:15px;padding:20px;background:var(--surface2)}
+.expectation-step{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:850;color:var(--teal)}
+.expectation-card h3{font-size:17px;letter-spacing:-.025em;margin:9px 0 8px}
+.expectation-card p{font-size:13px;color:var(--muted);line-height:1.6;margin:0}
+.curriculum-resource-row{margin-top:17px;padding:17px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px;border-radius:14px;border:1px solid var(--line);background:var(--surface)}
+.curriculum-resource-row strong{font-size:13px}.curriculum-resource-row p{font-size:12px;color:var(--muted);margin:4px 0 0}
+@media(max-width:1080px){.expectations-grid{grid-template-columns:1fr}}
+@media(max-width:680px){.rotation-expectations{padding:16px}.expectation-card{padding:16px}.curriculum-resource-row{flex-direction:column;align-items:stretch}}
 </style>
 </head>
 <body>
@@ -429,7 +442,15 @@ body{font-family:Inter,"Segoe UI",ui-sans-serif,system-ui,-apple-system,sans-ser
 <button class="domain-article" data-open="infection-control-ip" title="Open guide: CDC Precautions to Prevent Transmission of Infectious Agents"><span class="domain-t">Standard precautions and IPC implementation</span><span class="domain-src">CDC · 2023 ↗</span></button>
 <button class="domain-article" data-open="vaccines-adult" title="Open guide: CDC Adult Immunization Schedule by Medical Condition"><span class="domain-t">Vaccines in adults with comorbidities</span><span class="domain-src">CDC · 2025 ↗</span></button>
 </div></article>
-</div><div class="curr-info" style="margin-top:16px"><b>Rotation Expectations &amp; Evaluation</b><p><strong>Before the rotation:</strong> Contact your supervising ID attending in advance to confirm the meeting time, location, patient assignments, and documentation expectations.</p><p><strong>During the rotation:</strong> Participate in supervised consult evaluations, focused history and examination, chart and microbiology review, patient presentations, clinical documentation, follow-up, handoffs, and designated conferences when available. Identify clinical questions for patient-directed reading.</p><p><strong>Feedback &amp; evaluation:</strong> Faculty provide formative feedback during the rotation, including a mid-rotation discussion when feasible, and a final evaluation based on clinical care, reasoning, communication, and documentation.</p><p class="smallsummary">The companion Word curriculum contains the complete rotation procedures and printable resident checklist.</p></div></section>
+</div><section class="rotation-expectations" id="rotation-expectations" aria-labelledby="rotation-expectations-title">
+  <div class="rotation-expectations-head"><span class="mini-heading">Your ID service</span><h2 id="rotation-expectations-title">Rotation Expectations &amp; Evaluation</h2><p>What residents should expect before, during, and at the end of their inpatient ID rotation.</p></div>
+  <div class="expectations-grid">
+    <article class="expectation-card"><span class="expectation-step">01 · Prepare</span><h3>Before the Rotation</h3><p>Contact the supervising ID attending in advance to confirm the meeting time, location, patient assignments, and documentation expectations.</p></article>
+    <article class="expectation-card"><span class="expectation-step">02 · Participate</span><h3>During the Rotation</h3><p>Evaluate assigned consults with supervision; review clinical and microbiologic data; present recommendations; document and follow up on patients; coordinate handoffs and attend scheduled teaching when available. Use clinical questions to guide reading.</p></article>
+    <article class="expectation-card"><span class="expectation-step">03 · Reflect</span><h3>Feedback &amp; Evaluation</h3><p>Discuss learning goals with faculty, receive formative feedback during the rotation and at mid-rotation when feasible, and review a final evaluation of reasoning, patient care, communication, and documentation.</p></article>
+  </div>
+  <div class="curriculum-resource-row"><div><strong>Formal rotation curriculum</strong><p>The companion Word document includes the full learning objectives, procedures, and printable resident checklist.</p></div><span class="smallsummary">Download will be available here after the Word file is hosted.</span></div>
+</section></section>
       <section id="view-library" class="view" aria-label="ID library">
         <div class="pagehead"><div><div class="mini-heading">Evidence collection</div><h1>ID library</h1><p>Search by disease, organism, study, clinical question, or keyword. Filter by topic or article type and open each card for a one-minute summary.</p></div></div>
         <div id="toolbar-library" class="toolbar"></div><div id="summary-library" class="filter-results"></div><div id="grid-library" class="article-grid"></div>
