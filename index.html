@@ -464,6 +464,31 @@ body{font-family:Inter,"Segoe UI",ui-sans-serif,system-ui,-apple-system,sans-ser
 .mission-list li,.pearl-list li{font-size:13px;color:var(--ink);line-height:1.55}
 .pearl-list li::marker{color:var(--teal)}
 </style><style>.guide-step{display:inline-grid;place-items:center;width:35px;height:35px;border:1px solid var(--line);border-radius:10px;background:var(--pill);color:var(--teal);font-size:17px;font-weight:800;flex:none}.guide-two-section h3{font-size:16px;gap:12px}.guide-two-section{padding:19px 21px}.guide-scenario{font-size:14px;font-weight:500;line-height:1.75;margin-bottom:0}#modal-footer a.btn{margin-left:auto}</style><style>.guide-purpose{font-size:13.5px;line-height:1.75;color:var(--muted);margin:12px 0 1px;padding-left:14px;border-left:3px solid var(--teal)}.guide-pearl-intro{font-size:12px;color:var(--muted);margin:0 0 10px;font-weight:650}.guide-scenario{font-weight:530}</style><!-- site revision: personalized-guides-20261023-r2 -->
+
+<style>
+/* Article-first study guide: the clinical pearl is concealed until the learner chooses Reveal. */
+.guide-evidence-link{margin:14px 0 18px}
+.btn.guide-read-btn{width:100%;min-height:46px;font-size:13px}
+.guide-two-section .mission-heading{font-size:12.5px;font-weight:750;color:var(--ink);margin:15px 0 6px}
+.guide-two-section .mission-list{margin:0;padding-left:23px;gap:7px}
+.guide-two-section .mission-list li{font-size:13px;line-height:1.6;color:var(--ink)}
+.guide-pearl-section{padding:17px 20px}
+.guide-pearl-summary{display:block;list-style:none;cursor:pointer;border-radius:9px}
+.guide-pearl-summary::-webkit-details-marker{display:none}
+.guide-pearl-summary::marker{content:""}
+.guide-pearl-summary:focus-visible{outline:3px solid var(--focus);outline-offset:5px}
+.guide-pearl-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.guide-pearl-title{display:inline-flex;align-items:center;gap:12px;font-size:16px;font-weight:740;color:var(--ink)}
+.guide-reveal-label{display:inline-flex;align-items:center;justify-content:center;min-width:79px;border:1px solid var(--line);border-radius:999px;padding:7px 15px;color:var(--ink);background:var(--surface2);font-size:12px;font-weight:730}
+.guide-pearl-summary:hover .guide-reveal-label{border-color:var(--brand);color:var(--brandDeep)}
+.guide-pearl-hint{display:block;margin:11px 0 0;color:var(--muted);font-size:12px;line-height:1.6}
+.guide-pearl-content{border-top:1px solid var(--line);margin-top:14px;padding-top:15px}
+.guide-pearl-content .guide-pearl-intro{font-size:12.5px;line-height:1.6}
+.guide-pearl-disclosure .reveal-open{display:none}
+.guide-pearl-disclosure[open] .reveal-open{display:inline}
+.guide-pearl-disclosure[open] .reveal-closed,.guide-pearl-disclosure[open] .guide-pearl-hint{display:none}
+@media(max-width:680px){.guide-pearl-section{padding:17px 16px}.guide-pearl-title{font-size:15px}.guide-pearl-row{gap:10px}.guide-reveal-label{min-width:72px;padding:6px 11px}}
+</style>
 </head>
 <body>
 <a href="#maincontent" class="skip">Skip to content</a>
@@ -633,6 +658,27 @@ function filtered(name){const st=state[name];return articles.filter(a=>{if(name=
 function card(a){const done=store.done.includes(a.id),saved=store.saved.includes(a.id);return `<article class="article-card"><button class="starbtn ${saved?'selected':''}" title="${saved?'Remove from saved':'Save article'}" aria-label="${saved?'Remove':'Save'} ${escapeHTML(a.short)}" aria-pressed="${saved}" data-save="${a.id}">${saved?'★':'☆'}</button><div class="cardtop"><span class="chip">${escapeHTML(a.topic)}</span><span class="chip type">${escapeHTML(a.kind)}</span><span class="chip tier-chip tier-chip-${a.tier}">Tier ${a.tier}</span>${ESSENTIAL_IDS.has(a.id)?'<span class="chip core">2-week pathway</span>':''}${EXTENDED_CORE_IDS.has(a.id)?'<span class="chip extended-core">Extended rotation</span>':''}</div>${a.readingGroup?`<div class="grouped-reading-label">${escapeHTML(a.readingGroup)} · ${escapeHTML(a.readingRole)}</div>`:''}<h3 class="article-title">${escapeHTML(a.short)}</h3><p class="article-question">${escapeHTML(a.question)}</p><div class="article-meta"><span>${escapeHTML(a.source)}</span><span>${a.year}</span><span>${a.mins} min</span></div><div class="cardfooter"><span class="readflag ${done?'complete':''}">${iconCheck(done)} ${done?'Already read':'Not yet'}</span><div class="cardactions"><button type="button" class="btn sm secondary" data-open="${a.id}">Open guide</button></div></div></article>`}
 function renderResults(name,keepFocus=false){const arr=filtered(name);if(name==='library')renderTierCards();document.getElementById('summary-'+name).innerHTML=`<span>Showing <b>${arr.length}</b> of ${name==='saved'?store.saved.length:name==='completed'?store.done.length:articles.length} readings</span><button class="textlink" data-clear="${name}">Clear filters</button>`;document.getElementById('grid-'+name).innerHTML=arr.length?arr.map(card).join(''):`<div class="empty"><div style="font-size:32px">⌕</div><h3>${name==='saved'&&store.saved.length===0?'No bookmarks yet':name==='completed'&&store.done.length===0?'No completed readings yet':'No matching articles'}</h3><p>${name==='saved'&&store.saved.length===0?'Use the star on an article to save it for later.':name==='completed'&&store.done.length===0?'Open any article and mark it read to see it here.':'Try another keyword or clear your filters.'}</p><button class="btn secondary" data-go="library">Explore the library →</button></div>`;}
 function renderList(name){renderToolbar(name);renderResults(name)}
+
+function renderStudyGuide(article){
+ const guide=article.guide||{};
+ const missions=Array.isArray(guide.missions)?guide.missions.slice(0,3):[];
+ const pearls=Array.isArray(guide.pearls)?guide.pearls.slice(0,2):[];
+ const missionContent=missions.length
+  ?'<p class="mission-heading">Read the article to answer:</p><ol class="mission-list">'+missions.map(item=>'<li>'+escapeHTML(item)+'</li>').join('')+'</ol>'
+  :'<p class="guide-purpose">'+escapeHTML(guide.purpose||'Use the article to work through the clinical decision raised by this case.')+'</p>';
+ return '<section class="guide-two-section"><h3><span class="guide-step">1</span> Clinical Question</h3>'+
+  '<p class="guide-scenario">'+escapeHTML(guide.scenario||article.question)+'</p>'+missionContent+'</section>'+
+  '<div class="guide-evidence-link"><a class="btn guide-read-btn" href="'+escapeHTML(article.url)+'" target="_blank" rel="noopener noreferrer">Find and read '+escapeHTML(article.short)+' ↗</a></div>'+
+  '<section class="guide-two-section guide-pearl-section"><details class="guide-pearl-disclosure">'+
+   '<summary class="guide-pearl-summary"><span class="guide-pearl-row">'+
+    '<span class="guide-pearl-title" role="heading" aria-level="3"><span class="guide-step">2</span> Clinical Pearl</span>'+
+    '<span class="guide-reveal-label"><span class="reveal-closed">Reveal</span><span class="reveal-open">Hide</span></span>'+
+   '</span><span class="guide-pearl-hint">Read the article first, then reveal the key takeaways and compare them with your initial decision.</span></summary>'+
+   '<div class="guide-pearl-content"><p class="guide-pearl-intro">After reviewing this article, what we hope you will take back to rounds is:</p>'+
+   '<ul class="pearl-list">'+pearls.map(item=>'<li>'+escapeHTML(item)+'</li>').join('')+'</ul></div>'+
+  '</details></section>';
+}
+
 function openArticle(id){
 const a=byId[id];if(!a)return;
 if(!activeArticle)lastFocus=document.activeElement;
@@ -640,10 +686,8 @@ activeArticle=id;
 const done=store.done.includes(id),saved=store.saved.includes(id);
 document.getElementById('modal-tags').innerHTML=`<span class="chip">${escapeHTML(a.topic)}</span><span class="chip type">${escapeHTML(a.kind)}</span><span class="chip tier-chip tier-chip-${a.tier}">Tier ${a.tier}</span>${ESSENTIAL_IDS.has(a.id)?'<span class="chip core">2-week pathway</span>':''}${EXTENDED_CORE_IDS.has(a.id)?'<span class="chip extended-core">Extended rotation</span>':''}`;
 document.getElementById('modal-title').textContent=a.short;
-document.getElementById('modal-scroll').innerHTML=`<div class="paper-meta"><b>${escapeHTML(a.title)}</b><br>${escapeHTML(a.authors)} · ${escapeHTML(a.source)} · ${a.year} · Approx. ${a.mins} min focused reading</div>
-<section class="guide-two-section"><h3><span class="guide-step">1</span> Clinical Question</h3><p class="guide-scenario">${escapeHTML(a.guide.scenario)}</p><p class="guide-purpose">${escapeHTML(a.guide.purpose)}</p></section>
-<section class="guide-two-section"><h3><span class="guide-step">2</span> Clinical Pearl</h3><p class="guide-pearl-intro">After reviewing this article, what we hope you will take back to rounds is:</p><ul class="pearl-list">${a.guide.pearls.map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul></section>`;
-document.getElementById('modal-footer').innerHTML=`<button class="btn secondary sm" data-save="${id}">${saved?'★ Saved':'☆ Save for later'}</button><button class="btn secondary sm" data-done="${id}">${done?'✓ Mark as not yet':'○ Already read / Mark as read'}</button><span class="push"></span><a class="btn sm" href="${escapeHTML(a.url)}" target="_blank" rel="noopener noreferrer">Read article ↗</a>`;
+document.getElementById('modal-scroll').innerHTML=`<div class="paper-meta"><b>${escapeHTML(a.title)}</b><br>${escapeHTML(a.authors)} · ${escapeHTML(a.source)} · ${a.year} · Approx. ${a.mins} min focused reading</div>`+renderStudyGuide(a);
+document.getElementById('modal-footer').innerHTML=`<button class="btn secondary sm" data-save="${id}">${saved?'★ Saved':'☆ Save for later'}</button><button class="btn secondary sm" data-done="${id}">${done?'✓ Mark as not yet':'○ Already read / Mark as read'}</button>`;
 const back=document.getElementById('modal-back');back.classList.add('open');back.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';document.getElementById('modal-close').focus();
 }
 function closeArticle(){activeArticle=null;const back=document.getElementById('modal-back');back.classList.remove('open');back.setAttribute('aria-hidden','true');document.body.style.overflow='';if(lastFocus&&lastFocus.isConnected)lastFocus.focus();}
@@ -685,11 +729,8 @@ document.addEventListener('click',e=>{
   const guide=article.guide||{};
   document.getElementById('modal-title').textContent=article.short;
   document.getElementById('modal-tags').innerHTML='<span class="chip">'+escapeHTML(article.topic)+'</span>';
-  document.getElementById('modal-scroll').innerHTML=
-   '<section class="guide-two-section"><h3><span class="guide-step">1</span> Clinical Question</h3><p class="guide-scenario">'+escapeHTML(guide.scenario||article.question)+'</p><p class="guide-purpose">'+escapeHTML(guide.purpose||'This article will help you work through the clinical decision raised by this case.')+'</p></section>'+
-   '<section class="guide-two-section"><h3><span class="guide-step">2</span> Clinical Pearl</h3><p class="guide-pearl-intro">After reviewing this article, what we hope you will take back to rounds is:</p><ul class="pearl-list">'+
-   (Array.isArray(guide.pearls)?guide.pearls:[]).map(p=>'<li>'+escapeHTML(p)+'</li>').join('')+'</ul></section>';
-  document.getElementById('modal-footer').innerHTML='<a class="btn sm" href="'+escapeHTML(article.url)+'" target="_blank" rel="noopener noreferrer" >Read article ↗</a>';
+  document.getElementById('modal-scroll').innerHTML=renderStudyGuide(article);
+  document.getElementById('modal-footer').innerHTML='';
   activeArticle=id;
   modal.classList.add('open');
   modal.setAttribute('aria-hidden','false');
