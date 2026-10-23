@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light dark" />
-  <meta name="description" content="ID Reading Room: a curated, practical evidence library and inpatient ID pathway and optional internal medicine reading for residents." />
+  <meta name="description" content="A reading guide and evidence library for internal medicine residents rotating on the infectious diseases service." />
   <title>ID Reading Room · Essential Evidence for Internal Medicine</title>
   <style>
     :root{--bg:#edf3f9;--surface:#ffffff;--surface2:#f3f7fc;--line:#d3ddea;--ink:#13253d;--muted:#586b85;--brand:#445be7;--brandDeep:#273cc3;--teal:#138a79;--pill:#eef8f4;--navy:#101e36;--navmuted:#acb8cc;--shadow:0 12px 30px rgba(21,44,86,.08);--radius:18px;--focus:#ffca58; color-scheme:light}
@@ -453,7 +453,17 @@ body{font-family:Inter,"Segoe UI",ui-sans-serif,system-ui,-apple-system,sans-ser
 </style><!-- Cloudflare Web Analytics -->
 <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "302e3fa91f4a41609d6fa66d445de8a2"}'></script>
 <!-- End Cloudflare Web Analytics -->
-</head>
+<style>
+/* Focused, two-section study guide; existing fonts and layout remain in place */
+.guide-evidence-link{margin:15px 0 18px}
+.guide-two-section{background:var(--surface);border:1px solid var(--line);padding:17px 18px;border-radius:14px;margin:13px 0}
+.guide-two-section h3{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--ink);margin:0 0 13px;letter-spacing:-.02em}
+.guide-scenario{font-size:14px;line-height:1.7;font-weight:600;margin:0 0 14px;color:var(--ink)}
+.mission-heading{font-size:12px;color:var(--teal)}
+.mission-list,.pearl-list{padding-left:21px;margin:8px 0 0;display:grid;gap:10px}
+.mission-list li,.pearl-list li{font-size:13px;color:var(--ink);line-height:1.55}
+.pearl-list li::marker{color:var(--teal)}
+</style></head>
 <body>
 <a href="#maincontent" class="skip">Skip to content</a>
 <div class="app">
@@ -630,29 +640,12 @@ activeArticle=id;
 const done=store.done.includes(id),saved=store.saved.includes(id);
 document.getElementById('modal-tags').innerHTML=`<span class="chip">${escapeHTML(a.topic)}</span><span class="chip type">${escapeHTML(a.kind)}</span><span class="chip tier-chip tier-chip-${a.tier}">Tier ${a.tier}</span>${ESSENTIAL_IDS.has(a.id)?'<span class="chip core">2-week pathway</span>':''}${EXTENDED_CORE_IDS.has(a.id)?'<span class="chip extended-core">Extended rotation</span>':''}`;
 document.getElementById('modal-title').textContent=a.short;
-const audioSupport='speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
-const video=typeof a.videoUrl==='string' && /^https:\/\/(www\.)?(youtube\.com|youtu\.be|vimeo\.com)\//i.test(a.videoUrl)?a.videoUrl:null;
 document.getElementById('modal-scroll').innerHTML=`<div class="paper-meta"><b>${escapeHTML(a.title)}</b><br>${escapeHTML(a.authors)} · ${escapeHTML(a.source)} · ${a.year} · Approx. ${a.mins} min focused reading</div>
-${a.readingGroup?`<div class="grouped-reading-note"><strong>${escapeHTML(a.readingGroup)}</strong><span>${escapeHTML(a.readingRole)}</span><div>${articles.filter(x=>x.readingGroup===a.readingGroup).sort((x,y)=>x.groupOrder-y.groupOrder).map(x=>`<button type="button" class="grouped-reading-other" data-open="${x.id}">${escapeHTML(x.short)}${x.id===a.id?' ✓':' ↗'}</button>`).join('')}</div></div>`:''}<div class="modal-topic-feedback"><button type="button" class="topic-suggest" data-suggest-topic="${escapeHTML(a.topic)}" data-suggest-article="${escapeHTML(a.short)}">+ Suggest an article for this topic</button></div>\n<div class="first-read"><span class="kicker">Start here · Original evidence</span><p>Read the original study or guideline first. Then return to review the clinical question and bedside implications. Some full texts require institutional access.</p><a class="btn" href="${escapeHTML(a.url)}" target="_blank" rel="noopener noreferrer">↗ Read original article first</a></div>
-<div class="clinical-question"><strong>Clinical question</strong><p>${escapeHTML(a.question)}</p></div>
-<div class="detail-section"><h3><span class="circle">01</span> Why this paper matters</h3><p>${escapeHTML(a.summary)}</p></div>
-<div class="detail-section"><h3><span class="circle">02</span> What to apply on rounds &amp; medicine service</h3><p>${escapeHTML(a.application)}</p></div>
-<div class="detail-section"><h3><span class="circle">03</span> Boundaries of the evidence</h3><p>${escapeHTML(a.limits)}</p></div>
-<div class="media-panel"><h3>Listen instead · Audio study guide</h3><p>Have your browser read the short clinical question and teaching guide aloud. This is not a recording or narration of the publisher’s article.</p><div class="media-actions"><button class="btn sm" data-audio="${id}" ${audioSupport?'':'disabled'}>▶ Listen to guide</button><button class="btn sm secondary" data-stop-audio disabled id="audio-stop">■ Stop audio</button></div><span class="media-note" id="audio-status">${audioSupport?'Voice quality and availability depend on your browser and device.':'Audio narration is not available in this browser.'}</span>${video?`<p style="margin-top:12px"><a class="btn secondary sm" href="${escapeHTML(video)}" target="_blank" rel="noopener noreferrer">▷ Watch video explainer ↗</a></p>`:''}<div class="video-note"><b>Video option:</b> Curated video explanations can be added when clips are produced and reviewed. No generated video has been published for this article yet.</div></div>
-<div class="reflect"><strong>Ask yourself before closing</strong><p>${escapeHTML(a.prompt)}</p></div>
-<label class="noteslabel" for="article-notes">My one-sentence takeaway / question</label><textarea class="notesarea" id="article-notes" placeholder="Write one thing you learned, without patient-identifying information…">${escapeHTML(store.notes[id]||'')}</textarea><span class="notecaption">Auto-saved locally in this browser. Do not enter patient identifiers.</span>`;
+<div class="guide-evidence-link"><a class="btn" href="${escapeHTML(a.url)}" target="_blank" rel="noopener noreferrer">Read original article ↗</a></div>
+<section class="guide-two-section"><h3><span class="circle">01</span> Clinical Question + Reading Mission</h3><p class="guide-scenario">${escapeHTML(a.guide.scenario)}</p><strong class="mission-heading">Read the article to answer:</strong><ol class="mission-list">${a.guide.missions.map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ol></section>
+<section class="guide-two-section"><h3><span class="circle">02</span> The Clinical Pearl</h3><ul class="pearl-list">${a.guide.pearls.map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul></section>`;
 document.getElementById('modal-footer').innerHTML=`<button class="btn secondary sm" data-save="${id}">${saved?'★ Saved':'☆ Save for later'}</button><button class="btn secondary sm" data-done="${id}">${done?'✓ Mark as not yet':'○ Already read / Mark as read'}</button><span class="push"></span><a class="btn sm" href="${escapeHTML(a.url)}" target="_blank" rel="noopener noreferrer">Read original ↗</a>`;
 const back=document.getElementById('modal-back');back.classList.add('open');back.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';document.getElementById('modal-close').focus();
-}
-let speakingUtterance=null;
-function stopAudio(){if('speechSynthesis' in window)window.speechSynthesis.cancel();speakingUtterance=null;const s=document.getElementById('audio-stop');if(s)s.disabled=true;const t=document.getElementById('audio-status');if(t)t.textContent='Audio stopped.';}
-function speakSummary(id){const a=byId[id];if(!a||!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window)){toast('Audio is not supported by this browser');return}stopAudio();
-const body=`${a.short}. Clinical question: ${a.question} Why this paper matters: ${a.summary} What to apply on medicine service: ${a.application} Evidence limitations: ${a.limits} Reflection: ${a.prompt}`;
-const utterance=new SpeechSynthesisUtterance(body);utterance.lang='en-US';utterance.rate=0.95;utterance.pitch=1;
-speakingUtterance=utterance;const s=document.getElementById('audio-stop');if(s)s.disabled=false;const t=document.getElementById('audio-status');if(t)t.textContent='Playing narrated summary…';
-utterance.onend=()=>{if(speakingUtterance===utterance){speakingUtterance=null;const st=document.getElementById('audio-stop');if(st)st.disabled=true;const status=document.getElementById('audio-status');if(status)status.textContent='Finished listening.'}};
-utterance.onerror=()=>{if(speakingUtterance===utterance){speakingUtterance=null;const st=document.getElementById('audio-stop');if(st)st.disabled=true;const status=document.getElementById('audio-status');if(status)status.textContent='Audio could not play on this device.'}};
-window.speechSynthesis.speak(utterance);
 }
 function closeArticle(){stopAudio();activeArticle=null;const back=document.getElementById('modal-back');back.classList.remove('open');back.setAttribute('aria-hidden','true');document.body.style.overflow='';if(lastFocus&&lastFocus.isConnected)lastFocus.focus();}
 function refreshAfterChange(){renderCounts();if(view==='home')renderHome();if(view==='pathway')renderPathway();if(['library','saved','completed'].includes(view))renderResults(view);if(activeArticle)openArticle(activeArticle)}
