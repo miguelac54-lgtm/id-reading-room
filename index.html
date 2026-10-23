@@ -463,7 +463,7 @@ body{font-family:Inter,"Segoe UI",ui-sans-serif,system-ui,-apple-system,sans-ser
 .mission-list,.pearl-list{padding-left:21px;margin:8px 0 0;display:grid;gap:10px}
 .mission-list li,.pearl-list li{font-size:13px;color:var(--ink);line-height:1.55}
 .pearl-list li::marker{color:var(--teal)}
-</style><style>.guide-step{display:inline-grid;place-items:center;width:35px;height:35px;border:1px solid var(--line);border-radius:10px;background:var(--pill);color:var(--teal);font-size:17px;font-weight:800;flex:none}.guide-two-section h3{font-size:16px;gap:12px}.guide-two-section{padding:19px 21px}.guide-scenario{font-size:14px;font-weight:500;line-height:1.75;margin-bottom:0}#modal-footer a.btn{margin-left:auto}</style></head>
+</style><style>.guide-step{display:inline-grid;place-items:center;width:35px;height:35px;border:1px solid var(--line);border-radius:10px;background:var(--pill);color:var(--teal);font-size:17px;font-weight:800;flex:none}.guide-two-section h3{font-size:16px;gap:12px}.guide-two-section{padding:19px 21px}.guide-scenario{font-size:14px;font-weight:500;line-height:1.75;margin-bottom:0}#modal-footer a.btn{margin-left:auto}</style><style>.guide-purpose{font-size:13.5px;line-height:1.75;color:var(--muted);margin:12px 0 1px;padding-left:14px;border-left:3px solid var(--teal)}.guide-pearl-intro{font-size:12px;color:var(--muted);margin:0 0 10px;font-weight:650}.guide-scenario{font-weight:530}</style></head>
 <body>
 <a href="#maincontent" class="skip">Skip to content</a>
 <div class="app">
@@ -640,8 +640,8 @@ const done=store.done.includes(id),saved=store.saved.includes(id);
 document.getElementById('modal-tags').innerHTML=`<span class="chip">${escapeHTML(a.topic)}</span><span class="chip type">${escapeHTML(a.kind)}</span><span class="chip tier-chip tier-chip-${a.tier}">Tier ${a.tier}</span>${ESSENTIAL_IDS.has(a.id)?'<span class="chip core">2-week pathway</span>':''}${EXTENDED_CORE_IDS.has(a.id)?'<span class="chip extended-core">Extended rotation</span>':''}`;
 document.getElementById('modal-title').textContent=a.short;
 document.getElementById('modal-scroll').innerHTML=`<div class="paper-meta"><b>${escapeHTML(a.title)}</b><br>${escapeHTML(a.authors)} · ${escapeHTML(a.source)} · ${a.year} · Approx. ${a.mins} min focused reading</div>
-<section class="guide-two-section"><h3><span class="guide-step">1</span> Clinical Question</h3><p class="guide-scenario">${escapeHTML(a.guide.scenario)}</p></section>
-<section class="guide-two-section"><h3><span class="guide-step">2</span> The Clinical Pearl</h3><ul class="pearl-list">${a.guide.pearls.map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul></section>`;
+<section class="guide-two-section"><h3><span class="guide-step">1</span> Clinical Question</h3><p class="guide-scenario">${escapeHTML(a.guide.scenario)}</p><p class="guide-purpose">${escapeHTML(a.guide.purpose)}</p></section>
+<section class="guide-two-section"><h3><span class="guide-step">2</span> Clinical Pearl</h3><p class="guide-pearl-intro">What I hope you’ll take back to rounds:</p><ul class="pearl-list">${a.guide.pearls.map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul></section>`;
 document.getElementById('modal-footer').innerHTML=`<button class="btn secondary sm" data-save="${id}">${saved?'★ Saved':'☆ Save for later'}</button><button class="btn secondary sm" data-done="${id}">${done?'✓ Mark as not yet':'○ Already read / Mark as read'}</button><span class="push"></span><a class="btn sm" href="${escapeHTML(a.url)}" target="_blank" rel="noopener noreferrer">Read article ↗</a>`;
 const back=document.getElementById('modal-back');back.classList.add('open');back.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';document.getElementById('modal-close').focus();
 }
@@ -685,8 +685,8 @@ document.addEventListener('click',e=>{
   document.getElementById('modal-title').textContent=article.short;
   document.getElementById('modal-tags').innerHTML='<span class="chip">'+escapeHTML(article.topic)+'</span>';
   document.getElementById('modal-scroll').innerHTML=
-   '<section class="guide-two-section"><h3><span class="guide-step">1</span> Clinical Question</h3><p class="guide-scenario">'+escapeHTML(guide.scenario||article.question)+'</p></section>'+
-   '<section class="guide-two-section"><h3><span class="guide-step">2</span> The Clinical Pearl</h3><ul class="pearl-list">'+
+   '<section class="guide-two-section"><h3><span class="guide-step">1</span> Clinical Question</h3><p class="guide-scenario">'+escapeHTML(guide.scenario||article.question)+'</p><p class="guide-purpose">'+escapeHTML(guide.purpose||'This article will help you work through the clinical decision raised by this case.')+'</p></section>'+
+   '<section class="guide-two-section"><h3><span class="guide-step">2</span> Clinical Pearl</h3><p class="guide-pearl-intro">What I hope you’ll take back to rounds:</p><ul class="pearl-list">'+
    (Array.isArray(guide.pearls)?guide.pearls:[]).map(p=>'<li>'+escapeHTML(p)+'</li>').join('')+'</ul></section>';
   document.getElementById('modal-footer').innerHTML='<a class="btn sm" href="'+escapeHTML(article.url)+'" target="_blank" rel="noopener noreferrer" >Read article ↗</a>';
   activeArticle=id;
