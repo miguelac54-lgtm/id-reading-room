@@ -43,6 +43,37 @@ footer{display:flex;gap:14px;justify-content:space-between;flex-wrap:wrap;color:
 .case-status-help{font-size:11px;color:var(--muted);padding:1px 0 0}
 .filtercount strong{color:var(--ink)}
 @media(max-width:700px){.featured-wrap .grid{grid-template-columns:1fr}.case-summary{gap:8px}.case-stat{padding:12px}.case-stat strong{font-size:20px}.featured-wrap{padding:15px}}
+
+/* Fourth learning pathway · AI Case Practice & Feedback */
+.menu{grid-template-columns:repeat(4,minmax(0,1fr))}
+.menu button{min-width:0}
+.menu button strong{line-height:1.3}
+.practice-hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(250px,.7fr);gap:20px;background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
+.practice-main{padding:clamp(22px,4vw,36px)}
+.practice-label{color:var(--green);font-size:11px;font-weight:850;letter-spacing:.11em;text-transform:uppercase}
+.practice-main h3{font-size:clamp(25px,3vw,31px);margin:10px 0 13px}
+.practice-main p{margin:0 0 20px;color:var(--muted);font-size:14px;max-width:600px}
+.practice-main .btn{font-size:14px;padding:12px 19px}
+.practice-access{display:block;font-size:11px;color:var(--muted);margin-top:11px}
+.practice-aside{background:var(--soft);border-left:1px solid var(--line);padding:28px}
+.practice-aside h3{font-size:17px;margin:0 0 14px}
+.practice-steps{list-style:none;margin:0;padding:0;display:grid;gap:15px}
+.practice-steps li{display:grid;grid-template-columns:25px 1fr;align-items:start;gap:9px;color:var(--muted);font-size:12px;line-height:1.5}
+.practice-stepno{width:24px;height:24px;display:grid;place-items:center;color:var(--green);border:1px solid var(--line);background:var(--card);border-radius:100%;font-size:11px;font-weight:800}
+.practice-steps strong{color:var(--ink);font-size:12px;display:block}
+.practice-formats{margin:26px 0 0}
+.practice-formats h3{margin:0 0 5px;font-size:22px}
+.practice-formats>p{margin:0 0 16px;color:var(--muted);font-size:13px}
+.practice-format-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.practice-format{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:20px;box-shadow:var(--shadow)}
+.practice-format .practice-num{font-size:11px;font-weight:850;letter-spacing:.1em;color:var(--green)}
+.practice-format h4{font-size:16px;letter-spacing:-.02em;margin:6px 0 6px}
+.practice-format p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
+.practice-note{font-size:12px;color:var(--muted);line-height:1.65;margin-top:18px;background:var(--card);padding:15px 18px;border-radius:13px;border:1px solid var(--line)}
+.practice-note strong{color:var(--ink)}
+@media(max-width:1080px){.menu{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.menu{grid-template-columns:1fr}.practice-hero{grid-template-columns:1fr}.practice-aside{border-left:0;border-top:1px solid var(--line);padding:21px}.practice-format-grid{grid-template-columns:1fr}.practice-main{padding:23px}}
+
 </style><meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="../../theme.css"><title>Warm Academic Preview · Clinical Reasoning</title></head>
 <body><div class="wa-preview-banner"><span>WARM ACADEMIC · DESIGN PREVIEW ONLY · Existing learning content and functions retained</span><a href="https://miguelac54-lgtm.github.io/id-reading-room/" target="_blank" rel="noopener">Current live website ↗</a></div><header class="header"><a class="logo" href="../"><span class="mark">ID</span><span>ID Fellows Learning Room<small>Clinical reasoning · Transplant ID</small></span></a><a class="back" href="../">← Fellows Room</a></header>
 <main><section class="hero"><div class="eyebrow">ID FELLOWS · CLINICAL REASONING</div><h1>Think more clearly. Explain your reasoning. Make better decisions.</h1><p>A dedicated practice space for learning the science of clinical reasoning and applying it to challenging infectious diseases cases. No transplant reading tiers here.</p><a href="https://share.articulate.com/LeLKQ6U2sY-4MvQ2xOpQS" target="_blank" rel="noopener noreferrer">Open Articulate Course ↗</a></section>
@@ -51,6 +82,7 @@ footer{display:flex;gap:14px;justify-content:space-between;flex-wrap:wrap;color:
  <button type="button" class="active" data-section="course" aria-current="page"><span class="icon"><span class="wa-icon wa-presentation"></span></span><strong>Articulate Course</strong><small>Structured, interactive curriculum</small></button>
  <button type="button" data-section="articles"><span class="icon"><span class="wa-icon wa-file"></span></span><strong>Relevant Articles of Interest</strong><small>Concepts, frameworks and teaching literature</small></button>
  <button type="button" data-section="cases"><span class="icon"><span class="wa-icon wa-case"></span></span><strong>Clinical ID Cases</strong><small>NEJM, CID and other published cases</small></button>
+ <button type="button" data-section="practice"><span class="icon"><span class="wa-icon wa-brain" aria-hidden="true"></span></span><strong>AI Case Practice &amp; Feedback</strong><small>Interactive cases and personalized coaching</small></button>
 </nav>
 <section class="view active" id="course" aria-labelledby="course-title">
 <div class="sectionhead"><div><h2 id="course-title">Articulate Course</h2><p>Your structured, self-paced Clinical Reasoning curriculum.</p></div></div>
@@ -60,6 +92,37 @@ footer{display:flex;gap:14px;justify-content:space-between;flex-wrap:wrap;color:
 <section class="view" id="cases" aria-labelledby="cases-title"><div class="sectionhead"><div><h2 id="cases-title">Clinical ID Cases</h2><p>Selected published cases with infectious diagnoses. Read the initial framing, pause to reason, then open the original case. Final diagnoses stay hidden unless you choose to reveal them.</p></div></div>
 <div class="case-summary" aria-label="Your clinical case progress"><div class="case-stat"><strong id="stat-total-cases">0</strong><small>Total published cases</small></div><div class="case-stat"><strong id="stat-saved-cases">0</strong><small>Saved cases</small></div><div class="case-stat"><strong id="stat-reviewed-cases">0</strong><small>Already reviewed</small></div></div><section class="featured-wrap" aria-labelledby="featured-title"><div class="featured-header"><div><div class="kicker" style="margin:0 0 6px">Latest additions to the literature</div><h3 id="featured-title">Newly Published Cases</h3><p>Selected recent cases with confirmed publication dates. Diagnoses remain hidden until revealed.</p></div><span class="dateline">Curated November 2026 · Not a live feed</span></div><div class="grid" id="new-case-grid"></div></section><div class="sectionhead"><div><h2>Explore all clinical ID cases</h2><p>Save interesting cases for later or mark the ones you have already reviewed.</p></div></div><div class="toolbar"><input id="case-search" placeholder="Search a case, symptom, skill, or syndrome…" aria-label="Search clinical ID cases"><select id="case-journal" aria-label="Filter cases by journal"><option value="">All journals</option><option value="NEJM">NEJM</option><option value="CID">Clinical Infectious Diseases</option><option value="JGIM">Journal of General Internal Medicine</option><option value="Other">Other journals</option></select><select id="case-skill" aria-label="Filter cases by reasoning skill"><option value="">All reasoning skills</option></select><select id="case-status" aria-label="Filter cases by your review status"><option value="">All cases</option><option value="saved">My saved cases</option><option value="reviewed">Already reviewed</option><option value="unreviewed">Not yet reviewed</option></select></div><div id="case-count" class="filtercount"></div><div class="grid" id="case-grid"></div>
 <div class="note"><strong>How to use a published case:</strong> Read its introduction without jumping ahead. State a problem representation, a ranked differential, what would change your mind, and what you would do next. Only then review the discussant's reasoning and the final diagnosis. This website links to the originals; it does not reproduce the copyrighted case narratives.<div class="linksrow"><a href="https://academic.oup.com/cid/pages/clinical-dilemmas" target="_blank" rel="noopener noreferrer">Browse CID Clinical Dilemmas ↗</a><a href="https://www.nejm.org/medical-articles/clinical-problem-solving" target="_blank" rel="noopener noreferrer">Explore NEJM Clinical Problem-Solving ↗</a></div></div></section>
+<section class="view" id="practice" aria-labelledby="practice-title">
+  <div class="sectionhead"><div><h2 id="practice-title">AI Case Practice &amp; Feedback</h2><p>Apply your clinical reasoning skills in a structured, interactive conversation with your existing ID Fellows Clinical Reasoning tutor.</p></div></div>
+  <div class="practice-hero">
+    <div class="practice-main">
+      <div class="practice-label">Interactive learning · ChatGPT tutor</div>
+      <h3>Practice your reasoning. Receive feedback. Improve your decisions.</h3>
+      <p>Work through infectious diseases cases, articulate your thinking at each decision point, and ask the tutor for feedback on your problem representation, differential diagnosis, test selection, and management reasoning.</p>
+      <a class="btn" href="https://chatgpt.com/g/g-69f0fbd56ad081918a6b6637bc1144a8-clinical-reasoning-cases-for-id-fellows" target="_blank" rel="noopener noreferrer">Launch AI Clinical Reasoning Tutor ↗</a>
+      <span class="practice-access">Opens the Clinical Reasoning Cases for ID Fellows GPT in ChatGPT. Sign-in or access permissions may be required.</span>
+    </div>
+    <aside class="practice-aside" aria-label="Suggested learner workflow">
+      <h3>Suggested learner workflow</h3>
+      <ol class="practice-steps">
+        <li><span class="practice-stepno">1</span><span><strong>Choose a practice format</strong>Start a case or ask for a focused reasoning exercise.</span></li>
+        <li><span class="practice-stepno">2</span><span><strong>Commit to your reasoning</strong>Explain your problem representation, prioritized differential, and next clinical decision before advancing.</span></li>
+        <li><span class="practice-stepno">3</span><span><strong>Review feedback and reflect</strong>Identify one strength and one reasoning habit to improve.</span></li>
+      </ol>
+    </aside>
+  </div>
+  <div class="practice-formats">
+    <h3>Ways to practice</h3>
+    <p>Use these approaches when working with the tutor; choose the format that matches your learning goal.</p>
+    <div class="practice-format-grid">
+      <article class="practice-format"><span class="practice-num">01 · PROGRESSIVE CASE</span><h4>Case Mode</h4><p>Work through a case in stages. Update your differential as clinical information is revealed.</p></article>
+      <article class="practice-format"><span class="practice-num">02 · CLINICAL DOCUMENTATION</span><h4>Consult Note Mode</h4><p>Practice an ID problem representation, assessment, and plan with targeted feedback.</p></article>
+      <article class="practice-format"><span class="practice-num">03 · FOCUSED PRACTICE</span><h4>Rapid Review</h4><p>Practice one diagnostic or management decision with immediate coaching.</p></article>
+      <article class="practice-format"><span class="practice-num">04 · TEACHING PRACTICE</span><h4>Teaching Script</h4><p>Translate an ID clinical problem into a concise teaching explanation or chalk talk.</p></article>
+    </div>
+  </div>
+  <div class="practice-note"><strong>Privacy and progress:</strong> Use fictional or appropriately de-identified cases; never enter patient-identifying information. Conversations and AI feedback take place in ChatGPT and are <strong>not</strong> automatically saved to, or scored by, this website. Review AI recommendations critically against the primary literature and clinical context.</div>
+</section>
 <div class="note"><strong>Educational use:</strong> Cases link to original publishers. Some require institutional subscriptions. Diagnoses shown on request are summaries rather than complete case resolutions; clinical decisions should be guided by the primary sources and local protocols. The Articulate course is linked rather than copied or embedded. Saved and reviewed case statuses are stored on this device/browser only, and do not sync across devices.</div>
 <footer><span>ID Fellows Learning Room · Clinical Reasoning · November 2026</span><span>Connected to the Transplant ID learning space</span></footer></main>
 <script id="articles-data" type="application/json">[{"topic":"Foundations","title":"Educational Strategies to Promote Clinical Diagnostic Reasoning","source":"NEJM · Bowen · 2006","url":"https://www.nejm.org/doi/full/10.1056/NEJMra054782","why":"A foundation for teaching expert clinical reasoning rather than only its conclusions.","question":"How can you make the reasoning process observable during an ID consult?"},{"topic":"Foundations","title":"Clinical Reasoning in ID Training: A National Needs Assessment of Fellows","source":"Open Forum Infectious Diseases · Wooten & Chavez · 2026 (conference abstract)","url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC12792255/","why":"Fellowship-specific priorities: knowledge structures, uncertainty, decisions, and case-based learning.","question":"Which clinical reasoning skills do fellows most want to practice?"},{"topic":"Problem representation","title":"Teaching Clinical Reasoning to Medical Students: A Case-Based Illness Script Worksheet Approach","source":"MedEdPORTAL · 2019","url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC6464440/","why":"A practical worksheet approach for problem representation and semantic qualifiers.","question":"What makes a problem representation more useful than a chronology?"},{"topic":"Illness scripts","title":"Consensus Statement on the Content of Clinical Reasoning Curricula in Undergraduate Medical Education","source":"Medical Teacher · 2020","url":"https://www.tandfonline.com/doi/full/10.1080/0142159X.2020.1842343","why":"A framework for teaching what reasoning consists of, beyond recognition of cognitive biases.","question":"How can clinical reasoning instruction balance concepts, knowledge, testing, management, and communication?"},{"topic":"Cognitive biases","title":"Clinical Reasoning for the Infectious Disease Specialist: A Primer to Recognize Cognitive Biases","source":"Clinical Infectious Diseases · 2013","url":"https://pubmed.ncbi.nlm.nih.gov/23595833/","why":"ID-specific examples of diagnostic bias and error prevention.","question":"When does a plausible early diagnosis become an anchor?"},{"topic":"Management reasoning","title":"Reasoning on Rounds, Volume 2: A Framework for Teaching Management Reasoning in the Inpatient Setting","source":"Journal of General Internal Medicine · 2025","url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC12045913/","why":"A practical way to distinguish diagnostic reasoning from choosing tests, treatments, monitoring, and follow-up.","question":"What changes when the problem is a management decision rather than a diagnosis?"},{"topic":"Management reasoning","title":"Clinical Dilemmas in Infectious Diseases — Series Introduction","source":"Clinical Infectious Diseases · Minter & Phadke · 2025","url":"https://academic.oup.com/cid/article/80/4/703/8098117","why":"Explains real-time expert reasoning and why difficult cases provide useful diagnostic and management decision points.","question":"How can a case discussant make their reasoning process explicit?"},{"topic":"Teaching reasoning","title":"When the Script Doesn’t Fit: An Exercise in Clinical Reasoning","source":"Journal of General Internal Medicine · 2017","url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC5481232/","why":"A progressive case demonstrating illness-script refinement and hypothesis updating.","question":"What finding should make the clinician reconsider an established diagnosis?"}]</script>
@@ -82,7 +145,7 @@ function toggleProgress(type,c){const key=caseKey(c),set=new Set(progress[type])
 function newCases(){return CS.filter(c=>c.publishedDate&&c.publishedDate>="2026-01-01"&&c.publishedDate<="2026-11-06").sort((a,b)=>b.publishedDate.localeCompare(a.publishedDate))}
 function formatDate(date){if(!date)return "";const [yy,mm,dd]=date.split("-").map(Number);return new Date(Date.UTC(yy,mm-1,dd)).toLocaleDateString("en-US",{year:"numeric",month:"short",day:"numeric",timeZone:"UTC"})}
 
-function navigate(name){if(!["course","articles","cases"].includes(name))return;section=name;document.querySelectorAll("[data-section]").forEach(b=>{b.classList.toggle("active",b.dataset.section===name);if(b.dataset.section===name)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});document.querySelectorAll(".view").forEach(x=>x.classList.toggle("active",x.id===name));try{history.replaceState(null,"",location.pathname+"?section="+name)}catch(e){}if(name==="cases")showCases();if(name==="articles")showArticles();window.scrollTo(0,0)}
+function navigate(name){if(!["course","articles","cases","practice"].includes(name))return;section=name;document.querySelectorAll("[data-section]").forEach(b=>{b.classList.toggle("active",b.dataset.section===name);if(b.dataset.section===name)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});document.querySelectorAll(".view").forEach(x=>x.classList.toggle("active",x.id===name));try{history.replaceState(null,"",location.pathname+"?section="+name)}catch(e){}if(name==="cases")showCases();if(name==="articles")showArticles();window.scrollTo(0,0)}
 document.querySelectorAll("[data-section]").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.section)));
 document.querySelectorAll("[data-jump]").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.jump)));
 function setup(){const art=$("#article-topic"),sk=$("#case-skill");unique(AR.map(a=>a.topic)).forEach(t=>art.add(new Option(t,t)));unique(CS.map(c=>c.skill)).forEach(t=>sk.add(new Option(t,t)));$("#case-status").addEventListener("change",showCases);$("#article-search").addEventListener("input",showArticles);art.addEventListener("change",showArticles);$("#case-search").addEventListener("input",showCases);$("#case-journal").addEventListener("change",showCases);sk.addEventListener("change",showCases);showArticles();showCases()}
@@ -99,6 +162,6 @@ $("#new-case-grid").innerHTML=featured.length?featured.map(c=>renderCaseCard(c,"
 $("#case-grid").innerHTML=matches.length?matches.map(c=>renderCaseCard(c,"all")).join(""):'<div class="empty">No matching cases. Try changing the journal, skill, status, or search terms.</div>';
 attachCaseControls()}
 
-setup();try{const v=new URLSearchParams(location.search).get("section");if(["course","articles","cases"].includes(v))navigate(v)}catch(e){}
+setup();try{const v=new URLSearchParams(location.search).get("section");if(["course","articles","cases","practice"].includes(v))navigate(v)}catch(e){}
 })();
 </script></body></html>
